@@ -1,0 +1,77 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition>
+
+
+		<h:panelGrid columns="1">
+			<!-- NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME NOME -->
+			<h:panelGrid columns="1">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome do produto" for="nome" />
+					<p:inputText id="nome" value="#{pedidoMB.nome}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+					<p:outputLabel value="Tipo" for="tipo" />
+					<p:selectOneMenu id="tipo" value="#{pedidoMB.tipo}">
+						<p:ajax event="change" update="@this" />
+						<f:selectItem itemLabel="Selecione" itemValue="0" />
+						<f:selectItem itemLabel="Comida" itemValue="2" />
+						<f:selectItem itemLabel="Bebida" itemValue="1" />
+					</p:selectOneMenu>
+				
+					<p:outputLabel value="Preço mínimo" for="de" />
+					<p:inputText id="de" value="#{pedidoMB.preco1}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+					<p:outputLabel value="Preço máximo" for="ate" />
+					<p:inputText id="ate" value="#{pedidoMB.preco2}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+			<!-- PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO PREÇO -->
+
+			<!-- INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES  -->
+			<h:panelGrid columns="1">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Usar filtro de Ingredientes" for="fIng" />
+					<p:selectBooleanCheckbox id="fIng" value="#{pedidoMB.usaIng}">
+						<p:ajax event="change" update="@form" listener="#{pedidoMB.limparIngs}" />
+					</p:selectBooleanCheckbox>
+				</h:panelGrid>
+				<h:panelGrid columns="3" rendered="#{pedidoMB.usaIng}">
+					<p:outputLabel value="Filtrar Ingredientes" for="ingrediente" />
+					<p:autoComplete id="ingrediente" queryDelay="1000" forceSelection="true" 
+						value="#{pedidoMB.ingrediente}" effect="fade" maxResults="5"
+						size="30" completeMethod="#{ingredienteMB.completeIngrediente}"
+						var="ingrediente" itemLabel="#{ingrediente.nome}"
+						converter="ingredienteConverter" itemValue="#{ingrediente}">
+						<p:ajax event="change" process="@this " />
+						<p:ajax event="itemSelect" update="@this " />
+					</p:autoComplete>
+					<p:commandButton value="Adicionar" actionListener="#{pedidoMB.adicionaIng}" update="@form" />
+				</h:panelGrid>
+				<p:dataTable var="ing" value="#{pedidoMB.listaIngrediente}"
+					rendered="#{pedidoMB.usaIng}">
+					<p:column headerText="Ingrediente">
+						<h:outputText value="#{ing.nome}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="-" title="Remover" update="@form"
+							action="#{pedidoMB.removerIngrediente(ing)}" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+			<!-- INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES INGREDIENTES-->
+
+
+
+			<p:commandButton actionListener="#{pedidoMB.pesquisarProdutos}"
+				value="Pesquisar" />
+		</h:panelGrid>
+	</ui:composition>
+</f:view>

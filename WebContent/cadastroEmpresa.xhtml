@@ -1,0 +1,214 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/defaultLogin.xhtml">
+		<ui:define name="content">
+
+			<h:form>
+			
+			<div class="centralizador" >
+				<p:fieldset legend="Cadastro de Lanchonete" styleClass="tamanhoAutomatico">
+					<p:wizard nextLabel="Avançar" backLabel="Voltar" styleClass="tamanhoAutomatico"
+						flowListener="#{cadastroEmpresaMB.onFlowProcess}">
+						<!-- 					<p:tabView> -->
+						<p:tab title="Dados Principais">
+							<h:panelGrid columns="2">
+								<p:outputLabel for="nome" value="Nome" />
+								<p:inputText id="nome" value="#{cadastroEmpresaMB.empresa.nome}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="nomeFant" value="Nome fantasia" />
+								<p:inputText id="nomeFant"
+									value="#{cadastroEmpresaMB.empresa.nomeFantasia}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+								<p:outputLabel for="cnpj" value="CNPJ" />
+								<p:inputMask id="cnpj" value="#{cadastroEmpresaMB.empresa.cnpj}"
+									mask="99.999.999/9999-99">
+									<p:ajax event="change" process="@this " />
+								</p:inputMask>
+
+								<p:outputLabel for="login" value="Login" />
+								<p:inputText id="login"
+									value="#{cadastroEmpresaMB.usuEmp.login}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="senha" value="Senha" />
+								<p:inputText  type="password"  id="senha"
+									value="#{cadastroEmpresaMB.usuEmp.senha}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="confSenha" value="Confirma Senha" />
+								<p:inputText  type="password"  id="confSenha"
+									value="#{cadastroEmpresaMB.confSenha}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="email" value="Email" />
+								<p:inputText id="email"
+									value="#{cadastroEmpresaMB.empresa.email}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="telefone" value="Telefone" />
+								<p:inputText id="telefone"
+									value="#{cadastroEmpresaMB.empresa.telefone}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+							</h:panelGrid>
+						</p:tab>
+						<p:tab id="enderecoTab" title="Endereco" backLabel="Voltar">
+							<h:panelGrid columns="2">
+								<p:outputLabel for="cep" value="CEP" />
+								<p:inputMask id="cep" value="#{cadastroEmpresaMB.endereco.cep}"
+									mask="99999-999">
+									<p:ajax event="change" process="@this " />
+								</p:inputMask>
+
+								<p:outputLabel for="endereco" value="Endereco" />
+								<p:inputText id="endereco"
+									value="#{cadastroEmpresaMB.endereco.descricao}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="complemento" value="Complemento" />
+								<p:inputText id="complemento"
+									value="#{cadastroEmpresaMB.endereco.complemento}">
+									<p:ajax event="change" process="@this " />
+								</p:inputText>
+
+								<p:outputLabel for="uf" value="UF" />
+								<p:selectOneMenu id="uf" value="#{cadastroEmpresaMB.uf}">
+									<p:ajax event="change"
+										listener="#{cadastroEmpresaMB.buscaCidades}" update="@form" />
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="AC" itemValue="AC" />
+									<f:selectItem itemLabel="AL" itemValue="AL" />
+									<f:selectItem itemLabel="AP" itemValue="AP" />
+									<f:selectItem itemLabel="AM" itemValue="AM" />
+									<f:selectItem itemLabel="BA" itemValue="BA" />
+									<f:selectItem itemLabel="CE" itemValue="CE" />
+									<f:selectItem itemLabel="DF" itemValue="DF" />
+									<f:selectItem itemLabel="ES" itemValue="ES" />
+									<f:selectItem itemLabel="GO" itemValue="GO" />
+									<f:selectItem itemLabel="MA" itemValue="MA" />
+									<f:selectItem itemLabel="MT" itemValue="MT" />
+									<f:selectItem itemLabel="MS" itemValue="MS" />
+									<f:selectItem itemLabel="PA" itemValue="PA" />
+									<f:selectItem itemLabel="PB" itemValue="PB" />
+									<f:selectItem itemLabel="PR" itemValue="PR" />
+									<f:selectItem itemLabel="PE" itemValue="PE" />
+									<f:selectItem itemLabel="PI" itemValue="PI" />
+									<f:selectItem itemLabel="RJ" itemValue="RJ" />
+									<f:selectItem itemLabel="RN" itemValue="RN" />
+									<f:selectItem itemLabel="RS" itemValue="RS" />
+									<f:selectItem itemLabel="RO" itemValue="RO" />
+									<f:selectItem itemLabel="RR" itemValue="RR" />
+									<f:selectItem itemLabel="SC" itemValue="SC" />
+									<f:selectItem itemLabel="SP" itemValue="SP" />
+									<f:selectItem itemLabel="SE" itemValue="SE" />
+									<f:selectItem itemLabel="TO" itemValue="TO" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="cidade" value="Cidade" />
+								<p:selectOneMenu id="cidade" value="#{cadastroEmpresaMB.cidade}"
+									converter="cidadeConverter">
+									<p:ajax event="change" update="@this" />
+
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItems value="#{cadastroEmpresaMB.listaCidade}"
+										var="cidade" itemLabel="#{cidade.descricao}"
+										itemValue="#{cidade}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="bairro" value="Bairro" />
+								<p:autoComplete id="bairro"
+									value="#{cadastroEmpresaMB.endereco.bairro}" queryDelay="1000"
+									effect="fade" maxResults="5" size="30"
+									completeMethod="#{cadastroEmpresaMB.completeBairro}"
+									var="bairro" itemLabel="#{bairro.descricao}"
+									converter="bairroConverter" itemValue="#{bairro}">
+									<p:ajax event="change" process="@this " />
+									<p:ajax event="itemSelect" update="@this " />
+								</p:autoComplete>
+
+							</h:panelGrid>
+							<br />
+							<br />
+							<p:commandLink value="Cadastrar mais um endereco"
+								action="#{cadastroEmpresaMB.cadastraMaisEndereco}"
+								update="@form" />
+							<br />
+							<br />
+							<br />
+						</p:tab>
+						<p:tab title="Confirmação" backLabel="Voltar">
+							<p:panelGrid columns="8">
+
+
+								<h:outputText value="CNPJ:" />
+								<h:outputText value="#{cadastroEmpresaMB.empresa.cnpj}" />
+								<h:outputText value=" " />
+								<h:outputText value="Nome:" />
+								<h:outputText value="#{cadastroEmpresaMB.empresa.nome}" />
+								<h:outputText value=" " />
+								<h:outputText value="Nome Fantasia:" />
+								<h:outputText value="#{cadastroEmpresaMB.empresa.nomeFantasia}" />
+
+								<h:outputText value="Login:" />
+								<h:outputText value="#{cadastroEmpresaMB.usuEmp.login}" />
+								<h:outputText value=" " />
+								<h:outputText value="Senha" />
+								<h:outputText value="#{cadastroEmpresaMB.usuEmp.senha}" />
+								<h:outputText value=" " />
+								<h:outputText value="Email:" />
+								<h:outputText value="#{cadastroEmpresaMB.empresa.email}" />
+							</p:panelGrid>
+
+							<p:dataTable value="#{cadastroEmpresaMB.listaEnderecos}">
+								<p:column headerText="CEP" width="70px">
+									<h:outputText value="#{cadastroEmpresaMB.endereco.cep}" />
+								</p:column>
+								<p:column headerText="Endereco" width="170px">
+									<h:outputText value="#{cadastroEmpresaMB.endereco.descricao}" />
+
+								</p:column>
+								<p:column headerText="Complemento" width="170px">
+									<h:outputText value="#{cadastroEmpresaMB.endereco.complemento}" />
+								</p:column>
+								<p:column headerText="UF" width="30px">
+									<h:outputText
+										value="#{cadastroEmpresaMB.endereco.bairro.cidade.uf}" />
+								</p:column>
+								<p:column headerText="Cidade">
+									<h:outputText
+										value="#{cadastroEmpresaMB.endereco.bairro.cidade.descricao}" />
+								</p:column>
+								<p:column headerText="Bairro">
+									<h:outputText
+										value="#{cadastroEmpresaMB.endereco.bairro.descricao}" />
+								</p:column>
+							</p:dataTable>
+
+							<p:commandButton actionListener="#{cadastroEmpresaMB.salvar}"
+								value="Salvar" />
+
+
+
+						</p:tab>
+						<!-- 					</p:tabView> -->
+					</p:wizard>
+				</p:fieldset>
+				</div>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

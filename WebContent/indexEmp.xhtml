@@ -1,0 +1,39 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/defaultLogin.xhtml">
+		<ui:define name="content">
+
+			<div class="centralizaLogin" style="margin-left: -210px;">
+				<h:form id="form">
+					<p:growl showDetail="true" autoUpdate="true" />
+					<p:fieldset legend="Empresa">
+						<!-- 				<p:selectOneMenu value="#{loginEmpresaMB.empresa}" converter="empresaConverter" > -->
+						<!-- 					<f:selectItem itemLabel="Select One" itemValue="" /> -->
+						<!--             			<f:selectItems value="#{empresaMB.empresas}" var="emp" itemLabel="#{emp.nome}" itemValue="#{emp}" /> -->
+						<!-- 				</p:selectOneMenu> -->
+
+						<p:panelGrid columns="2" styleClass="noBorders">
+							<p:outputLabel for="login" value="login" />
+							<p:inputText id="login" value="#{loginEmpresaMB.usuEmp.login}">
+								<p:ajax event="change" update="@this" process="@this" />
+							</p:inputText>
+							<p:outputLabel for="senha" value="Senha" />
+							<p:inputText type="password" id="senha"  value="#{loginEmpresaMB.usuEmp.senha}">
+								<p:ajax event="change" update="@this" process="@this" />
+							</p:inputText>
+						</p:panelGrid>
+						<p:commandButton value="Entrar"
+							actionListener="#{loginEmpresaMB.autentica}" />
+							
+						<p:button value="Quero me cadastrar" outcome="/cadastroEmpresa" />	
+					</p:fieldset>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

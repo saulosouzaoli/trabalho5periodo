@@ -1,0 +1,85 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<p:fieldset legend="Adicional" styleClass="tamanhoAutomatico">
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" value="#{adicionalMB.adicional.nome}" />
+
+							<p:outputLabel value="Descrição" for="descricao" />
+							<p:inputText id="descricao"
+								value="#{adicionalMB.adicional.descricao}" />
+
+							<p:outputLabel for="tipo" value="Tipo" />
+							<p:selectOneMenu id="tipo" value="#{adicionalMB.adicional.tipo}">
+								<p:ajax event="change" update="@this" />
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItem itemLabel="Comida" itemValue="2" />
+								<f:selectItem itemLabel="Bebida" itemValue="1" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Ingrediente" for="ingrediente" />
+							<p:autoComplete id="ingrediente" queryDelay="1000"
+								value="#{adicionalMB.adicional.ingrediente}" effect="fade"
+								maxResults="5" size="30"
+								completeMethod="#{ingredienteMB.completeIngrediente}"
+								var="ingrediente" itemLabel="#{ingrediente.nome}"
+								converter="ingredienteConverter" itemValue="#{ingrediente}">
+								<p:ajax event="change" process="@this " />
+								<p:ajax event="itemSelect" update="@this " />
+							</p:autoComplete>
+
+
+							<p:outputLabel value="Valor" for="valor" />
+							<p:inputText id="valor" value="#{adicionalMB.adicional.valor}" />
+
+						</h:panelGrid>
+						<p:commandButton value="Salvar"
+							actionListener="#{adicionalMB.cadastrarAdicional}"
+							rendered="#{!adicionalMB.renderizaUpdate}" />
+						<p:commandButton value="Alterar"
+							actionListener="#{adicionalMB.cadastrarAdicional}"
+							rendered="#{adicionalMB.renderizaUpdate}" />
+					</h:panelGrid>
+
+					<p:dataTable var="add" value="#{adicionalMB.listaAdd}"
+						selectionMode="single" selection="#{adicionalMB.adicional}"
+						rowKey="#{add.id}">
+						<p:ajax event="rowSelect" update="@form" />
+
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{add.nome}" />
+						</p:column>
+						<p:column headerText="Descrição">
+							<h:outputText value="#{add.descricao}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{add.tipo}" />
+						</p:column>
+						<p:column headerText="Ingrediente">
+							<h:outputText value="#{add.ingrediente.nome}" />
+						</p:column>
+						<p:column headerText="Valor">
+							<h:outputText value="#{add.valor}" />
+						</p:column>
+						<p:column headerText="Remover">
+							<p:commandButton value="-"
+								actionListener="#{adicionalMB.removerAdicional(add)}" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

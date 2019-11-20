@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Meu Carrinho</title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<p:tabView>
+			<p:tab title="Carrinho">
+
+				<center>
+					<h:outputText value="Não há itens no seu carrinho"
+						rendered="#{!carrinhoMB.renderizaPedidos}" />
+				</center>
+
+				<p:dataTable var="pp" value="#{carrinhoMB.listaProdutosDesejados}"
+					rendered="#{carrinhoMB.renderizaPedidos}">
+					<p:column headerText="Nome">
+						<h:outputText value="#{pp.produto.nome}" />
+					</p:column>
+					<p:column headerText="Ingrediente">
+						<h:outputText value="#{pp.produto.nomeIng}" />
+					</p:column>
+					<p:column headerText="Alteração">
+
+						<h:outputText value="#{pp.nomeAdicionais}" />
+					</p:column>
+					<p:column headerText="Qtd.">
+						<h:outputText value="#{pp.qtd}" />
+					</p:column>
+					<p:column headerText="Total">
+						<h:outputText value="#{pp.total}" />
+					</p:column>
+					<p:column headerText="">
+						<p:commandButton value="Remover"
+							actionListener="#{carrinhoMB.removerPedido(pp)}" />
+						<p:commandLink value="Alterar Ingredientes"
+							actionListener="#{carrinhoMB.altIng(pp)}"
+							oncomplete="PF('addDialog').show()" />
+					</p:column>
+
+				</p:dataTable>
+
+				<p:commandButton value="Confirmar Pedidos" immediate="true"
+					rendered="#{carrinhoMB.renderizaPedidos}" process="@this"
+					actionListener="#{carrinhoMB.confirmarPedido}" />
+			</p:tab>
+			<p:tab title="A Receber">
+				<center>
+					<h:outputText value="Não há itens a receber"
+						rendered="#{!carrinhoMB.renderizaReceber}" />
+				</center>
+
+				<p:dataTable var="pp" value="#{carrinhoMB.listaReceber}"
+					rendered="#{carrinhoMB.renderizaReceber}">
+					<p:column headerText="Empresa">
+						<h:outputText value="#{pp.empresa.nome}" />
+					</p:column>
+					<p:column headerText="Data pedido">
+						<h:outputText value="#{pp.dtPedido}" />
+					</p:column>
+					<p:column headerText="Quando ficou pronto">
+						<h:outputText value="#{pp.dtPedido}" />
+					</p:column>
+					<p:column headerText="Confirmar Recebimento">
+						<p:commandButton icon="ui-icon-check"
+							actionListener="#{carrinhoMB.finalizaPedido(pp)}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Historico">
+				<center>
+					<h:outputText value="Não há itens no historico"
+						rendered="#{!carrinhoMB.renderizaHistorico}" />
+				</center>
+
+				<p:dataTable var="pp" value="#{carrinhoMB.historicoPedidos}"
+					rendered="#{carrinhoMB.renderizaHistorico}">
+					<p:column headerText="Nome">
+						<h:outputText value="#{pp.dataConfirmacao}" />
+					</p:column>
+					<!-- 					<p:column headerText="Ingrediente"> -->
+					<!-- 						<h:outputText value="#{pp.produto.nomeIng}" /> -->
+					<!-- 					</p:column> -->
+					<!-- 					<p:column headerText="Alteração"> -->
+					<!-- 						<p:commandLink value="Alterar Ingredientes" actionListener="#{carrinhoMB.altIng(pp)}" oncomplete="PF('addDialog').show()"  /> -->
+					<!-- 						<h:outputText value="#{pp.nomeAdicionais}" /> -->
+					<!-- 					</p:column> -->
+					<!-- 					<p:column headerText="Qtd."> -->
+					<!-- 						<h:outputText value="#{pp.qtd}" /> -->
+					<!-- 					</p:column> -->
+					<!-- 					<p:column headerText="Total"> -->
+					<!-- 						<h:outputText value="#{pp.total}" /> -->
+					<!-- 					</p:column> -->
+				</p:dataTable>
+			</p:tab>
+
+
+		</p:tabView>
+		<p:commandButton value="Recarregar" update="@form"
+			actionListener="#{carrinhoMB.atualizarTudo}" />
+
+		<p:dialog header="Alterar Ingredientes" widgetVar="addDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:panelGrid columns="2" columnClasses="label,value">
+
+				<h:outputText value="Tipo:" />
+				<p:selectOneMenu id="tipo" value="#{carrinhoMB.tipoAdicional}">
+					<p:ajax event="change" update="@form" disabled="true" />
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+					<f:selectItem itemLabel="Adicionar" itemValue="true" />
+					<f:selectItem itemLabel="Remover" itemValue="false" />
+				</p:selectOneMenu>
+				<h:outputText value="Ingrediente:"
+					rendered="#{!carrinhoMB.tipoAdicional}" />
+				<p:selectOneMenu id="ingrediente"
+					rendered="#{!carrinhoMB.tipoAdicional}"
+					value="#{carrinhoMB.ingrediente}" converter="ingredienteConverter">
+					<p:ajax event="change" process="@this " />
+					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItems value="#{carrinhoMB.listaIngredientes}"
+						var="ingrediente" itemLabel="#{ingrediente.nome}"
+						itemValue="#{ingrediente}" />
+				</p:selectOneMenu>
+				<h:outputText value="Adicional:"
+					rendered="#{carrinhoMB.tipoAdicional}" />
+				<p:selectOneMenu id="adicional"
+					rendered="#{carrinhoMB.tipoAdicional}"
+					value="#{carrinhoMB.adicional}" converter="adicionalConverter">
+					<p:ajax event="change" process="@this " />
+					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItems value="#{carrinhoMB.listaAdicional}"
+						itemLabel="#{adicional.nome}|R$#{adicional.valor}" var="adicional"
+						itemValue="#{adicional}" />
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Adicionar Alteracao" update="@form"
+				actionListener="#{carrinhoMB.addAdicional}"
+				oncomplete="PF('addDialog').hide()" />
+
+		</p:dialog>
+
+	</h:form>
+</h:body>
+</html>

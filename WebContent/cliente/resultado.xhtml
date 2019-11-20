@@ -1,0 +1,96 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+
+
+
+				<p:dataGrid var="produto" value="#{pedidoMB.listaProdutos}"
+					styleClass="tamanhoAutomatico" columns="3" layout="grid" rows="12"
+					paginator="true" id="cars"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16">
+					<f:facet name="header">
+			           Resultados
+			        </f:facet>
+
+
+					<p:panel header="#{produto.nome}" style="text-align:center">
+						<h:panelGrid columns="1">
+							<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+
+							<h:outputText value="Preço: R$ #{produto.preco}" />
+							<h:outputText
+								value="Tempo de preparo (Aprox.): #{produto.tempoMedioPreparo} minutos" />
+							<h:outputText
+								value="Estabelecimento: #{produto.empresa.nomeFantasia} " />
+
+
+						</h:panelGrid>
+						<h:panelGrid columns="1" styleClass="esconde-borda"
+							style="float:right">
+							<p:commandLink value="Adicionar ao Carrinho" update=":formSuperior"
+								actionListener="#{carrinhoMB.adicionarAoCarrinho(produto)}" />
+
+							<p:commandLink oncomplete="PF('prodDialog').show()"
+								update="@form"
+								actionListener="#{pedidoMB.selecionouProduto(produto)}"
+								value="Mais informações" />
+						</h:panelGrid>
+						<br />
+						<br />
+					</p:panel>
+				</p:dataGrid>
+				<!-- 				</p:fieldset> -->
+
+				<p:dialog header="#{pedidoMB.produto.nome}" widgetVar="prodDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<h:panelGrid columns="2">
+							<p:panelGrid columns="2" columnClasses="label,value">
+
+								<h:outputText value="Tipo:" />
+								<h:outputText value="#{pedidoMB.tp}" />
+
+								<h:outputText value="Preço:" />
+								<h:outputText value="#{pedidoMB.produto.preco}" />
+
+								<h:outputText value="Tempo de preparo (Aprox.):" />
+								<h:outputText
+									value="#{pedidoMB.produto.tempoMedioPreparo} minutos" />
+
+								<h:outputText value="Estabelecimento:" />
+								<h:outputText value="#{pedidoMB.produto.empresa.nomeFantasia} " />
+
+								<h:outputText value="Telefone:" />
+								<h:outputText value="#{pedidoMB.produto.empresa.telefone} " />
+
+								<h:outputText value="Endereço:" />
+								<h:outputText
+									value="#{pedidoMB.endereco.descricao} - #{pedidoMB.endereco.bairro.descricao} - #{pedidoMB.endereco.bairro.cidade.descricao}   " />
+
+
+
+							</p:panelGrid>
+
+							<p:dataTable var="pi" styleClass="tamanhoAutomatico"
+								value="#{pedidoMB.produto.produtoIngredientes}">
+								<p:column headerText="Ingredientes">
+									<h:outputText value="#{pi.ingrediente.nome}" />
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+						<p:commandButton value="Adicionar ao Carrinho" update=":formSuperior"
+							actionListener="#{carrinhoMB.adicionarAoCarrinho(pedidoMB.produto)}"
+							oncomplete="PF('prodDialog').hide()" />
+					
+				</p:dialog>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

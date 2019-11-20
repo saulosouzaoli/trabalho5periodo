@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title><h:outputText value="Alterar Cadastro de Lanchonete" /></title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+
+	<style type="text/css">
+</style>
+</h:head>
+<h:body>
+	<h:form>
+
+		<!-- 					<p:wizard nextLabel="Avançar" backLabel="Voltar"  flowListener="#{alterarCadEmpMB.onFlowProcess}"> -->
+		<p:tabView>
+			<p:tab title="Dados Principais">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel for="login" value="Login" />
+					<p:inputText id="login" value="#{alterarCadEmpMB.usuEmp.login}"
+						disabled="true">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+
+					<p:outputLabel for="nome" value="Nome" />
+					<p:inputText id="nome" value="#{alterarCadEmpMB.empresa.nome}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+
+					<p:outputLabel for="nomeFant" value="Nome fantasia" />
+					<p:inputText id="nomeFant"
+						value="#{alterarCadEmpMB.empresa.nomeFantasia}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+					<p:outputLabel for="cnpj" value="CNPJ" />
+					<p:inputMask id="cnpj" value="#{alterarCadEmpMB.empresa.cnpj}" mask="99.999.999/9999-99">
+						<p:ajax event="change" process="@this " />
+					</p:inputMask>
+
+
+					<p:outputLabel for="email" value="Email" />
+					<p:inputText id="email" value="#{alterarCadEmpMB.empresa.email}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+
+				</h:panelGrid>
+				<p:commandButton actionListener="#{alterarCadEmpMB.salvar}"
+					style="float:right" value="Salvar Dados" />
+			</p:tab>
+			<p:tab id="enderecoTab" title="Endereco" backLabel="Voltar">
+
+				<p:dataGrid var="numero" value="#{alterarCadEmpMB.qtd}" columns="5"
+					styleClass="tamanhoAutomatico esconde-borda">
+					<p:commandButton style="text-align:center" value="#{numero}"
+							actionListener="#{alterarCadEmpMB.selecionaEnd(numero)}"
+							update="@form" />
+				</p:dataGrid>
+				<h:panelGrid columns="1" style="float:right" >
+					<p:commandLink value="Mais endereço"
+						action="#{alterarCadEmpMB.cadastraMaisEndereco}" update="@form" />
+				</h:panelGrid>
+				<br />
+				<h:panelGrid columns="2">
+					<p:outputLabel for="cep" value="CEP" />
+					<p:inputMask id="cep" value="#{alterarCadEmpMB.endereco.cep}"
+						mask="99999-999">
+						<p:ajax event="change" process="@this " />
+					</p:inputMask>
+
+					<p:outputLabel for="endereco" value="Endereco" />
+					<p:inputText id="endereco" size="50"
+						value="#{alterarCadEmpMB.endereco.descricao}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+
+					<p:outputLabel for="complemento" value="Complemento" />
+					<p:inputText id="complemento" size="50"
+						value="#{alterarCadEmpMB.endereco.complemento}">
+						<p:ajax event="change" process="@this " />
+					</p:inputText>
+
+					<p:outputLabel for="uf" value="UF" />
+					<p:selectOneMenu id="uf" value="#{alterarCadEmpMB.uf}">
+						<p:ajax event="change" listener="#{alterarCadEmpMB.buscaCidades}"
+							update="@form" />
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItem itemLabel="AC" itemValue="AC" />
+						<f:selectItem itemLabel="AL" itemValue="AL" />
+						<f:selectItem itemLabel="AP" itemValue="AP" />
+						<f:selectItem itemLabel="AM" itemValue="AM" />
+						<f:selectItem itemLabel="BA" itemValue="BA" />
+						<f:selectItem itemLabel="CE" itemValue="CE" />
+						<f:selectItem itemLabel="DF" itemValue="DF" />
+						<f:selectItem itemLabel="ES" itemValue="ES" />
+						<f:selectItem itemLabel="GO" itemValue="GO" />
+						<f:selectItem itemLabel="MA" itemValue="MA" />
+						<f:selectItem itemLabel="MT" itemValue="MT" />
+						<f:selectItem itemLabel="MS" itemValue="MS" />
+						<f:selectItem itemLabel="PA" itemValue="PA" />
+						<f:selectItem itemLabel="PB" itemValue="PB" />
+						<f:selectItem itemLabel="PR" itemValue="PR" />
+						<f:selectItem itemLabel="PE" itemValue="PE" />
+						<f:selectItem itemLabel="PI" itemValue="PI" />
+						<f:selectItem itemLabel="RJ" itemValue="RJ" />
+						<f:selectItem itemLabel="RN" itemValue="RN" />
+						<f:selectItem itemLabel="RS" itemValue="RS" />
+						<f:selectItem itemLabel="RO" itemValue="RO" />
+						<f:selectItem itemLabel="RR" itemValue="RR" />
+						<f:selectItem itemLabel="SC" itemValue="SC" />
+						<f:selectItem itemLabel="SP" itemValue="SP" />
+						<f:selectItem itemLabel="SE" itemValue="SE" />
+						<f:selectItem itemLabel="TO" itemValue="TO" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="cidade" value="Cidade" />
+					<p:selectOneMenu id="cidade" value="#{alterarCadEmpMB.cidade}"
+						converter="cidadeConverter">
+						<p:ajax event="change" update="@this" />
+
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{alterarCadEmpMB.listaCidade}" var="cidade"
+							itemLabel="#{cidade.descricao}" itemValue="#{cidade}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="bairro" value="Bairro" />
+					<p:autoComplete id="bairro"
+						value="#{alterarCadEmpMB.endereco.bairro}" queryDelay="1000"
+						effect="fade" maxResults="5" size="30"
+						completeMethod="#{alterarCadEmpMB.completeBairro}" var="bairro"
+						itemLabel="#{bairro.descricao}" converter="bairroConverter"
+						itemValue="#{bairro}">
+						<p:ajax event="change" process="@this " />
+						<p:ajax event="itemSelect" update="@this " />
+					</p:autoComplete>
+
+				</h:panelGrid>
+				<p:commandButton actionListener="#{alterarCadEmpMB.salvarEndereco}" update="@form"
+					style="float:right" value="Salvar Endereco" />
+				<br />
+				<br />
+
+				<br />
+				<br />
+				<br />
+			</p:tab>
+			
+		</p:tabView>
+
+		<!-- 					</p:wizard> -->
+
+	</h:form>
+</h:body>
+</html>

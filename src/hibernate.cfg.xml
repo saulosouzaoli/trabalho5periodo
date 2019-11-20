@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<!-- a SessionFactory instance listed as /jndi/name -->
+	<session-factory name="java:hibernate/SessionFactory">
+		<property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+		<!-- properties -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">false</property>
+
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/java</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password"></property>
+
+		<mapping class="br.com.xsalada.model.Adicional" />
+		<mapping class="br.com.xsalada.model.Bairro" />
+		<mapping class="br.com.xsalada.model.Cidade" />
+		<mapping class="br.com.xsalada.model.Cliente" />
+		<mapping class="br.com.xsalada.model.Empresa" />
+		<mapping class="br.com.xsalada.model.Endereco" />
+		<mapping class="br.com.xsalada.model.EnderecoCliente" />
+		<mapping class="br.com.xsalada.model.EnderecoEmpresa" />
+		<mapping class="br.com.xsalada.model.Ingrediente" />
+		<mapping class="br.com.xsalada.model.Pedido" />
+		<mapping class="br.com.xsalada.model.PedidoProduto" />
+		<mapping class="br.com.xsalada.model.Produto" />
+		<mapping class="br.com.xsalada.model.ProdutoIngrediente" />
+
+	</session-factory>
+
+</hibernate-configuration>

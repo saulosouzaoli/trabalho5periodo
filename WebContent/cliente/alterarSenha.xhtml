@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Alterar Senha</title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:panelGrid columns="2">
+			<p:outputLabel for="login" value="Login" />
+			<p:inputText id="login" value="#{alterarCadCliMB.usuCli.login}"
+				disabled="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+
+			<p:outputLabel for="senha" value="Senha Atual" />
+			<p:inputText type="password" id="senha"
+				value="#{alterarCadCliMB.senha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+			<p:outputLabel for="nsenha" value="Nova Senha" />
+			<p:inputText type="password" id="nsenha"
+				value="#{alterarCadCliMB.novaSenha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+			<p:outputLabel for="csenha" value="Confirma Nova Senha" />
+			<p:inputText type="password" id="csenha"
+				value="#{alterarCadCliMB.confSenha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+
+			<p:commandButton value="Alterar Senha"
+				actionListener="#{alterarCadCliMB.alterarSenha}" update="@form" />
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

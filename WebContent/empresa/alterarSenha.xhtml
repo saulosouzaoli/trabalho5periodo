@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title><h:outputText value="Alterar Senha" /></title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+
+	<style type="text/css">
+</style>
+</h:head>
+<h:body>
+	<h:form>
+		<h:panelGrid columns="2">
+			<p:outputLabel for="login" value="Login" />
+			<p:inputText id="login" value="#{alterarCadEmpMB.usuEmp.login}"
+				disabled="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+
+			<p:outputLabel for="senha" value="Senha Atual" />
+			<p:inputText type="password" id="senha" value="#{alterarCadEmpMB.senha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+			<p:outputLabel for="nsenha" value="Nova Senha" />
+			<p:inputText type="password" id="nsenha" value="#{alterarCadEmpMB.novaSenha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+			<p:outputLabel for="csenha" value="Confirma Nova Senha" />
+			<p:inputText type="password"  id="csenha" value="#{alterarCadEmpMB.confSenha}" required="true">
+				<p:ajax event="change" process="@this " />
+			</p:inputText>
+			
+			<p:commandButton value="Alterar Senha" actionListener="#{alterarCadEmpMB.alterarSenha()}" update="@form"/>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

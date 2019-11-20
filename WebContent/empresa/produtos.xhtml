@@ -1,0 +1,114 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<p:fieldset legend="Produto">
+					<h:panelGrid columns="1" style="float:left">
+						<p:dataTable var="p" value="#{produtoMB.listaProduto}"
+							rowKey="#{p.id}" selection="#{produtoMB.produto}"
+							selectionMode="single" emptyMessage="Não há produtos cadastrados">
+							<p:ajax event="rowSelect"
+								listener="#{produtoMB.selecionaProduto}" update="@form" />
+
+							<p:column headerText="Produto">
+								<h:outputText value="#{p.nome}" />
+							</p:column>
+							<p:column>
+								<p:commandButton value="-" title="Remover" update="@form"
+									action="#{produtoMB.removerProduto(p)}" />
+							</p:column>
+						</p:dataTable>
+						<p:commandButton value="Adicionar Produto"
+							actionListener="#{produtoMB.adicionarProduto}" update="@form" />
+					</h:panelGrid>
+					<h:panelGrid columns="1"
+						style="float:left;margin-left:30px;clear:right"
+						rendered="#{produtoMB.selected}">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="nome" value="Nome" />
+							<p:inputText id="nome" value="#{produtoMB.produto.nome}" >
+								<p:ajax event="change" update="@this" />
+							</p:inputText>
+
+							<p:outputLabel for="preco" value="Preço" />
+							<p:inputText id="preco" value="#{produtoMB.produto.preco}" >
+								<p:ajax event="change" update="@this" />
+							</p:inputText>
+
+							<p:outputLabel for="descricao" value="Tempo preparo (min):" />
+							<p:inputText id="descricao"
+								value="#{produtoMB.produto.tempoMedioPreparo}"  >
+								<p:ajax event="change" update="@this" />
+							</p:inputText>
+
+							<p:outputLabel for="tipo" value="Tipo" />
+							<p:selectOneMenu id="tipo" value="#{produtoMB.produto.tipo}" >
+								<p:ajax event="change" update="@this" />
+								<f:selectItem itemLabel="Selecione" itemValue="0" />
+								<f:selectItem itemLabel="Comida" itemValue="2" />
+								<f:selectItem itemLabel="Bebida" itemValue="1" />
+
+							</p:selectOneMenu>
+
+							<!-- 				<p:outputLabel for="tipo" value="Tipo" /> -->
+							<!-- 				<p:selectOneMenu  id="tipo" value="#{produtoMB.produto.tipo}"> -->
+							<!-- 					<f:selectItem itemLabel="Bebida" itemValue="1" /> -->
+							<!-- 					<f:selectItem itemLabel="Comida" itemValue="2" /> -->
+							<!-- 				</p:selectOneMenu> -->
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<p:panel header="Ingredientes do produto">
+
+								<h:panelGrid columns="2">
+
+									<p:autoComplete id="ingrediente" queryDelay="1000"
+										value="#{produtoMB.ingrediente}" effect="fade" maxResults="5"
+										size="30" completeMethod="#{produtoMB.completeIngrediente}"
+										var="ingrediente" itemLabel="#{ingrediente.nome}"
+										converter="ingredienteConverter" itemValue="#{ingrediente}">
+										<p:ajax event="change" process="@this " />
+										<p:ajax event="itemSelect" update="@this " />
+									</p:autoComplete>
+
+
+									<p:commandButton value="Adicionar Ingrediente" process="@this,ingrediente" immediate="true"
+										actionListener="#{produtoMB.gerenciaIngrediente}"
+										update="@form">
+										<p:ajax event="dialogReturn"
+											listener="#{produtoMB.adicionaIngrediente}" update="@form" />
+									</p:commandButton>
+								</h:panelGrid>
+								<p:dataTable var="pi" value="#{produtoMB.listaProdIngr}">
+									<p:column headerText="Ingrediente">
+										<h:outputText value="#{pi.ingrediente.nome}" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="-" title="Remover" update="@form"
+											action="#{produtoMB.removerIngrediente(pi)}" />
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" style="float:right">
+							<p:commandButton actionListener="#{produtoMB.cancelar}"
+								 value="Cancelar" update="@form" />
+							<p:commandButton actionListener="#{produtoMB.salvar}"
+								 value="Salvar" immediate="true"
+								rendered="#{empty produtoMB.produto.id}" update="@form"  />
+							<p:commandButton actionListener="#{produtoMB.update}"
+								 value="Atualizar" update="@form" 
+								rendered="#{not empty produtoMB.produto.id}" />
+						</h:panelGrid>
+					</h:panelGrid>
+
+				</p:fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

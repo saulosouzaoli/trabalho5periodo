@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Ingrediente</title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<h:outputText
+			value="Este ingrediente ainda não consta em nossos registros, termine de preencher os dados para cadastra-lo e proseguir " />
+
+		<!-- 		<p:fieldset legend="Ingredientes"> -->
+		<h:panelGrid columns="2">
+			<p:outputLabel for="nome" value="Nome" />
+			<p:inputText id="nome" value="#{produtoMB.ingrediente.nome}"
+				required="true" />
+
+
+			<p:outputLabel for="descricao" value="Descricao" />
+			<p:inputText id="descricao"
+				value="#{produtoMB.ingrediente.descricao}" />
+		</h:panelGrid>
+
+		<p:commandButton actionListener="#{produtoMB.cadastrarIngrediente}"
+			value="Salvar" />
+		<!-- 		</p:fieldset> -->
+	</h:form>
+</h:body>
+</html>

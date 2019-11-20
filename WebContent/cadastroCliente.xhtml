@@ -1,0 +1,242 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/defaultLogin.xhtml">
+		<ui:define name="content">
+
+			<h:form>
+				<div class="centralizador" >
+					<p:fieldset legend="Cadastro de Cliente">
+						<p:wizard nextLabel="Avançar" backLabel="Voltar"
+							flowListener="#{cadastroClienteMB.onFlowProcess}">
+							<!-- 					<p:tabView> -->
+							<p:tab title="Dados Principais">
+								<h:panelGrid columns="2">
+									<p:outputLabel for="nome" value="Nome"  />
+									<p:inputText id="nome" required="true"
+										value="#{cadastroClienteMB.cliente.nome}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="dtNasc" value="Data Nascimento" />
+									<p:calendar id="dtNasc" pattern="dd/MM/yyyy" mask="true" required="true"
+										value="#{cadastroClienteMB.cliente.dataNascimento}">
+										<p:ajax event="change" process="@this " />
+									</p:calendar>
+									<p:outputLabel for="cpf" value="CPF" />
+									<p:inputMask id="cpf" value="#{cadastroClienteMB.cliente.cpf}" required="true"
+										mask="999.999.999-99">
+										<p:ajax event="change" process="@this " />
+									</p:inputMask>
+									<p:outputLabel for="rg" value="RG" />
+									<p:inputText id="rg" value="#{cadastroClienteMB.cliente.rg}" required="true" >
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+									<p:outputLabel for="numCartao" value="Numero Cartao" />
+									<p:inputText id="numCartao"
+										value="#{cadastroClienteMB.cliente.numeroCartao}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="login" value="Login"  />
+									<p:inputText id="login" required="true"
+										value="#{cadastroClienteMB.usuCli.login}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="senha" value="Senha" />
+
+									<p:inputText type="password" id="senha" required="true"
+										value="#{cadastroClienteMB.usuCli.senha}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel  for="confSenha"
+										value="Confirma Senha" />
+									<p:inputText type="password" id="confSenha" required="true"
+										value="#{cadastroClienteMB.confSenha}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="email" value="Email" />
+									<p:inputText id="email" required="true"
+										value="#{cadastroClienteMB.cliente.email}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="telefone" value="Telefone" />
+									<p:inputMask id="telefone" mask="(99) 9999-9999" required="true"
+										value="#{cadastroClienteMB.cliente.telefone}">
+										<p:ajax event="change" process="@this " />
+									</p:inputMask>
+
+								</h:panelGrid>
+							</p:tab>
+							<p:tab id="enderecoTab" title="Endereco" backLabel="Voltar">
+								<h:panelGrid columns="2">
+
+									<p:outputLabel for="cep" value="CEP" />
+									<p:inputMask id="cep" value="#{cadastroClienteMB.endereco.cep}"
+										mask="99999-999">
+										<p:ajax event="change" process="@this " />
+									</p:inputMask>
+
+									<p:outputLabel for="endereco" value="Endereco" />
+									<p:inputText id="endereco"
+										value="#{cadastroClienteMB.endereco.descricao}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="complemento" value="Complemento" />
+									<p:inputText id="complemento"
+										value="#{cadastroClienteMB.endereco.complemento}">
+										<p:ajax event="change" process="@this " />
+									</p:inputText>
+
+									<p:outputLabel for="uf" value="UF" />
+									<p:selectOneMenu id="uf" value="#{cadastroClienteMB.uf}">
+										<p:ajax event="change"
+											listener="#{cadastroClienteMB.buscaCidades}" update="@form" />
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="AC" itemValue="AC" />
+										<f:selectItem itemLabel="AL" itemValue="AL" />
+										<f:selectItem itemLabel="AP" itemValue="AP" />
+										<f:selectItem itemLabel="AM" itemValue="AM" />
+										<f:selectItem itemLabel="BA" itemValue="BA" />
+										<f:selectItem itemLabel="CE" itemValue="CE" />
+										<f:selectItem itemLabel="DF" itemValue="DF" />
+										<f:selectItem itemLabel="ES" itemValue="ES" />
+										<f:selectItem itemLabel="GO" itemValue="GO" />
+										<f:selectItem itemLabel="MA" itemValue="MA" />
+										<f:selectItem itemLabel="MT" itemValue="MT" />
+										<f:selectItem itemLabel="MS" itemValue="MS" />
+										<f:selectItem itemLabel="PA" itemValue="PA" />
+										<f:selectItem itemLabel="PB" itemValue="PB" />
+										<f:selectItem itemLabel="PR" itemValue="PR" />
+										<f:selectItem itemLabel="PE" itemValue="PE" />
+										<f:selectItem itemLabel="PI" itemValue="PI" />
+										<f:selectItem itemLabel="RJ" itemValue="RJ" />
+										<f:selectItem itemLabel="RN" itemValue="RN" />
+										<f:selectItem itemLabel="RS" itemValue="RS" />
+										<f:selectItem itemLabel="RO" itemValue="RO" />
+										<f:selectItem itemLabel="RR" itemValue="RR" />
+										<f:selectItem itemLabel="SC" itemValue="SC" />
+										<f:selectItem itemLabel="SP" itemValue="SP" />
+										<f:selectItem itemLabel="SE" itemValue="SE" />
+										<f:selectItem itemLabel="TO" itemValue="TO" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="cidade" value="Cidade" />
+									<p:selectOneMenu id="cidade"
+										value="#{cadastroClienteMB.cidade}"
+										converter="cidadeConverter">
+										<p:ajax event="change" update="@this" />
+
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItems value="#{cadastroClienteMB.listaCidade}"
+											var="cidade" itemLabel="#{cidade.descricao}"
+											itemValue="#{cidade}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="bairro" value="Bairro" />
+									<p:autoComplete id="bairro"
+										value="#{cadastroClienteMB.endereco.bairro}" queryDelay="1000"
+										effect="fade" maxResults="5" size="30"
+										completeMethod="#{cadastroClienteMB.completeBairro}"
+										var="bairro" itemLabel="#{bairro.descricao}"
+										converter="bairroConverter" itemValue="#{bairro}">
+										<p:ajax event="change" process="@this " />
+										<p:ajax event="itemSelect" update="@this " />
+									</p:autoComplete>
+
+								</h:panelGrid>
+								<br />
+								<br />
+								<p:commandLink value="Cadastrar mais um endereco"
+									action="#{cadastroClienteMB.cadastraMaisEndereco}"
+									update="@form" />
+								<br />
+								<br />
+								<br />
+							</p:tab>
+							<p:tab title="Confirmação" backLabel="Voltar">
+								<p:panelGrid columns="8" styleClass="esconde-borda">
+
+
+									<h:outputText value="CPF:" />
+									<h:outputText value="#{cadastroClienteMB.cliente.cpf}" />
+									<h:outputText value=" " />
+									<h:outputText value="Nome:" />
+									<h:outputText value="#{cadastroClienteMB.cliente.nome}" />
+									<h:outputText value=" " />
+									<h:outputText value="Data Nascimento:" />
+									<h:outputText
+										value="#{cadastroClienteMB.cliente.dataNascimento}">
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy" />
+									</h:outputText>
+
+
+									<h:outputText value="RG:" />
+									<h:outputText value="#{cadastroClienteMB.cliente.rg}" />
+
+									<h:outputText value=" " />
+									<h:outputText value="Numero Cartao:" />
+									<h:outputText value="#{cadastroClienteMB.cliente.rg}" />
+
+									<h:outputText value=" " />
+									<h:outputText value="Login:" />
+									<h:outputText value="#{cadastroClienteMB.usuCli.login}" />
+
+									<h:outputText value="Senha" />
+									<h:outputText value="#{cadastroClienteMB.usuCli.senha}" />
+									<h:outputText value=" " />
+									<h:outputText value="Email:" />
+									<h:outputText value="#{cadastroClienteMB.cliente.email}" />
+								</p:panelGrid>
+
+								<p:dataTable value="#{cadastroClienteMB.listaEnderecos}">
+									<p:column headerText="CEP" width="70px">
+										<h:outputText value="#{cadastroClienteMB.endereco.cep}" />
+									</p:column>
+									<p:column headerText="Endereco" width="170px">
+										<h:outputText value="#{cadastroClienteMB.endereco.descricao}" />
+
+									</p:column>
+									<p:column headerText="Complemento" width="170px">
+										<h:outputText
+											value="#{cadastroClienteMB.endereco.complemento}" />
+									</p:column>
+									<p:column headerText="UF" width="30px">
+										<h:outputText
+											value="#{cadastroClienteMB.endereco.bairro.cidade.uf}" />
+									</p:column>
+									<p:column headerText="Cidade">
+										<h:outputText
+											value="#{cadastroClienteMB.endereco.bairro.cidade.descricao}" />
+									</p:column>
+									<p:column headerText="Bairro">
+										<h:outputText
+											value="#{cadastroClienteMB.endereco.bairro.descricao}" />
+									</p:column>
+								</p:dataTable>
+
+								<p:commandButton actionListener="#{cadastroClienteMB.salvar}"
+									value="Salvar" />
+<!-- 									oncomplete="rc()"  -->
+<!-- 									<p:remoteCommand name="rc" actionListener="" /> -->
+
+
+
+							</p:tab>
+							<!-- 					</p:tabView> -->
+						</p:wizard>
+					</p:fieldset>
+				</div>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>X-SALADA</title>
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/css/style.css"
+		media="screen" />
+	<script type="text/javascript">
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+                    'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+                    'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+                    'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Horário',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText : 'Data Atual',
+                        ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo Dia'
+            };
+        </script>
+
+</h:head>
+
+<h:body>
+	<div class="wrapper">
+
+		<!-- 		COMEÇOU TOPO -->
+		<div id="header">
+			<div class="floatL" style="margin-left: 1%;">
+
+				<h:panelGrid columns="2">
+					<p:outputLabel for="theme" value="Tema:"
+						style="  font-size:120% !important;" />
+					<p:themeSwitcher id="theme" value="#{themeSwitcherMB.meuTema}"
+						style="width:121px">
+						<p:ajax event="change" update="@this" />
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{themeSwitcherMB.themes}" />
+					</p:themeSwitcher>
+				</h:panelGrid>
+
+			</div>
+
+			<div class="topo-conteudo-direito ">
+				<h:form id="formSuperior">
+					<h:panelGrid columns="8" styleClass="esconde-borda">
+					<h:outputText value="Olá #{alterarCadMB.nome}" style="margin-right:20px" />
+						<p:commandButton icon="ui-icon-cart" value="Carrinho #{carrinhoMB.numero}" rendered="#{not loginEmpresaMB.logado}"
+							actionListener="#{carrinhoMB.chamarCarrinho}" immediate="true"
+							process="@this"/>
+						<h:outputText value="   |    " />
+
+						<p:commandLink value="Alterar Senha"
+							actionListener="#{alterarCadMB.alterarSenha}" immediate="true"
+							process="@this">
+							<p:ajax event="dialogReturn"
+								listener="#{alterarCadMB.onCloseDlg}" update="@form" />
+						</p:commandLink>
+						<h:outputText value="   |    " />
+
+						<p:commandLink value="Alterar Dados Cadastro"
+							actionListener="#{alterarCadMB.alterarCadastro}" immediate="true"
+							process="@this">
+							<p:ajax event="dialogReturn"
+								listener="#{alterarCadMB.onCloseDlg2}" update="@form" />
+						</p:commandLink>
+
+						<h:outputText value="   |    " />
+						<p:commandLink actionListener="#{loginEmpresaMB.encerrarSessao}"
+							value="Sair" />
+
+					</h:panelGrid>
+				</h:form>
+			</div>
+		
+
+		</div>
+
+
+
+		<div id="centralizador">
+			<div id="page">
+				<div id="content">
+					<div class="post">
+						<div style="text-align: center;">
+							<div style="padding-top: 10px">
+								<ui:insert name="content">
+								</ui:insert>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="push"></div>
+	</div>
+	<!-- 		COMEÇOU FOOTER -->
+	<h:form>
+			<p:poll interval="60" listener="#{feedEmpresaMB.pedidosNovos}" rendered="#{loginEmpresaMB.logado}" update="@form" />
+		<p:growl id="messages" showDetail="true" life="2500" autoUpdate="true" />
+
+
+		<div
+			class="footer ui-breadcrumb ui-module ui-widget ui-widget-header ui-helper-clearfix ui-corner-all floatL">
+			<div class="footer-conteudo-direito ">
+
+				<h:outputLink value="http://www.google.com.br/" styleClass="floatR"> Desenvolvido por Arthur e Saulo</h:outputLink>
+
+
+			</div>
+		</div>
+
+
+		<!-- 		</div> -->
+		<!-- 	</div> -->
+	</h:form>
+	<!-- 		ACABOU FOOTER -->
+
+	<ui:insert name="status">
+		<p:ajaxStatus
+			style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</ui:insert>
+	<p:dialog widgetVar="statusDialog" id="statusDialog" modal="true"
+		draggable="false" closable="false" resizable="false"
+		showHeader="false">
+		<center>
+			<p:graphicImage value="/imagens/aguarde_2.gif" />
+		</center>
+	</p:dialog>
+
+</h:body>
+</html>

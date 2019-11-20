@@ -1,0 +1,65 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<div class="centralizador" >
+					<!-- 			<p:fieldset legend="Empresa" > -->
+					<!-- 				<p:selectOneMenu value="#{loginEmpresaMB.empresa}" converter="empresaConverter" > -->
+					<!-- 					<f:selectItem itemLabel="Select One" itemValue="" /> -->
+					<!--             			<f:selectItems value="#{empresaMB.empresas}" var="emp" itemLabel="#{emp.nome}" itemValue="#{emp}" /> -->
+					<!-- 				</p:selectOneMenu> -->
+
+					<h:panelGrid columns="2">
+						<p:panelGrid columns="1">
+							<p:button value="Cadastrar Produtos" outcome="produtos" />
+							<p:button value="Cadastrar Ingredientes" outcome="ingrediente" />
+							<p:button value="Cadastrar Adicionais" outcome="adicional" />
+
+
+
+						</p:panelGrid>
+
+						<p:dataGrid var="pedProd" value="#{feedEmpresaMB.listaPedido}"
+							columns="3" layout="grid" rows="12" paginator="true" id="cars"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,18">
+
+							<p:panel header="#{pedProd.produto.nome}"
+								style="text-align:center">
+								<h:panelGrid columns="2" style="width:100%">
+									<h:outputText value="Data Pedido:" />
+									<h:outputText value="#{pedProd.pedido.dataPedido}">
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss" />
+									</h:outputText>
+									
+									<h:outputText value="Alterações:" />
+									<h:outputText value="#{pedProd.nomeAdicionais}" />
+									
+									<h:outputText value="Qtd:" />
+									<h:outputText value="#{pedProd.qtd}" />
+									
+									<h:outputText value="Cliente:" />
+									<h:outputText value="#{pedProd.pedido.cliente.nome}" />
+									
+									<h:outputText value="Telefone:" />
+									<h:outputText value="#{pedProd.pedido.cliente.telefone}" />
+									
+									
+								</h:panelGrid>
+								<p:commandLink update="@form" value="Finalizar" actionListener="#{feedEmpresaMB.finalizarPedido(pedProd)}"/>
+									
+							</p:panel>
+
+						</p:dataGrid>
+					</h:panelGrid>
+					<!-- 			</p:fieldset> -->
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

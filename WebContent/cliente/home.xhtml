@@ -1,0 +1,68 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<div class="centralizaLogin" style="margin-left: -210px;">
+					<!-- 			<p:fieldset legend="Empresa" > -->
+					<!-- 				<p:selectOneMenu value="#{loginEmpresaMB.empresa}" converter="empresaConverter" > -->
+					<!-- 					<f:selectItem itemLabel="Select One" itemValue="" /> -->
+					<!--             			<f:selectItems value="#{empresaMB.empresas}" var="emp" itemLabel="#{emp.nome}" itemValue="#{emp}" /> -->
+					<!-- 				</p:selectOneMenu> -->
+
+
+					<div class="centralizador">
+						<p:fieldset legend="Pesquisar por:">
+							<h:panelGrid>
+								<p:outputLabel for="console" value="Iniciar filtro por:" />
+								<p:selectOneRadio id="console" value="#{pedidoMB.filtro}">
+									<p:ajax event="change" update="@form" />
+									<f:selectItem itemLabel="Produto" itemValue="telaProd" />
+									<f:selectItem itemLabel="Estabelecimento" itemValue="telaEstab" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+							<br />
+							<p:fieldset>
+								<ui:include src="#{pedidoMB.tela}">
+
+								</ui:include>
+								<h:panelGrid columns="1" rendered="#{empty pedidoMB.tela}">
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+									<br />
+								</h:panelGrid>
+							</p:fieldset>
+						</p:fieldset>
+					</div>
+
+					<p:panelGrid columns="2">
+						<!-- 						<p:button value="Cadastrar Produtos" outcome="produtos" /> -->
+						<!-- 						<p:button value="Cadastrar Ingredientes" outcome="ingrediente" /> -->
+						<!-- 						<p:button value="Alterar Cadastro" outcome="alterarCadastroEmpresa" /> -->
+
+
+
+					</p:panelGrid>
+
+
+					<!-- 			</p:fieldset> -->
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
