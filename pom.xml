@@ -7,7 +7,7 @@
 	<version>0.0.1-RELEASE</version>
 	<packaging>war</packaging>
 	<properties>
-		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
+		<org.springframework.version>3.2.18.RELEASE</org.springframework.version>
 		<org.spring.webmvc.version>3.2.0.RELEASE</org.spring.webmvc.version>
 		<cxf.version>2.4.1</cxf.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
